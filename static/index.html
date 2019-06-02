@@ -13,7 +13,7 @@
   <title>Docker Management Tool</title>
 
   <!-- Bootstrap core CSS -->
-<!--   <link href="assets/css/bootstrap.min.css" rel="stylesheet"> -->
+  <!--   <link href="assets/css/bootstrap.min.css" rel="stylesheet"> -->
 
   <link rel="stylesheet" href="assets/css/sb-admin-2.min.css" />
 
@@ -24,6 +24,9 @@
   <link
     href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
+
+  <!-- Angular Confirm -->
+  <link rel="stylesheet" href="assets/css/angular-confirm.css" />
 
 </head>
 
@@ -44,6 +47,7 @@
 
 <script src="controllers/siteController.js"></script>
 <script src="controllers/containersController.js"></script>
+<script src="controllers/singleContainerController.js"></script>
 <script src="controllers/imagesController.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
@@ -60,11 +64,16 @@
 <!-- AngularJS Pagination -->
 <script src="assets/js/dirPagination.js"></script>
 
+<!-- AngularJS Confirm -->
+<script src="assets/js/angular-confirm.js"></script>
+
 <script>
-  var app = angular.module("docker-dashboard", ["ngRoute", "xeditable", "ui.bootstrap", "toastr", "angularUtils.directives.dirPagination"]);
+  var app = angular.module("docker-dashboard", ["ngRoute", "xeditable", "ui.bootstrap", "toastr", "angularUtils.directives.dirPagination",
+    "cp.ngConfirm"]);
 
   app.controller('siteController', SiteController);
   app.controller('containersController', ContainersController);
+  app.controller('singleContainerController', SingleContainerController);
   app.controller('imagesController', ImagesController);
 
   app.config(function ($routeProvider) {
@@ -77,10 +86,59 @@
         templateUrl: "views/containers.html",
         controller: "containersController"
       })
+      .when("/containers/:id", {
+        templateUrl: "views/singleContainer.html",
+        controller: "singleContainerController"
+      })
       .when("/images", {
         templateUrl: "views/images.html",
         controller: "imagesController"
       })
+  });
+
+  app.filter('Filesize', function () {
+    return function (size) {
+      if (isNaN(size))
+        size = 0;
+
+      if (size < 1024)
+        return size + ' Bytes';
+
+      size /= 1024;
+
+      if (size < 1024)
+        return size.toFixed(2) + ' KB';
+
+      size /= 1024;
+
+      if (size < 1024)
+        return size.toFixed(2) + ' MB';
+
+      size /= 1024;
+
+      if (size < 1024)
+        return size.toFixed(2) + ' GB';
+
+      size /= 1024;
+
+      return size.toFixed(2) + ' TB';
+    };
+  });
+
+  app.run(function ($rootScope) {
+    $rootScope.Utils = {
+      calculate_cpu_percent: function (data) {
+        cpu_count = data.cpu_stats.cpu_usage.percpu_usage.length;
+        cpu_percent = 0.0;
+        cpu_delta = data.cpu_stats.cpu_usage.total_usage - data.precpu_stats.cpu_usage.total_usage;
+        system_delta = data.cpu_stats.system_cpu_usage - data.precpu_stats.system_cpu_usage;
+
+        if (system_delta > 0.0) {
+          cpu_percent = cpu_delta / system_delta * 100.0 * cpu_count;
+        }
+        return cpu_percent;
+      }
+    }
   });
 </script>
 
