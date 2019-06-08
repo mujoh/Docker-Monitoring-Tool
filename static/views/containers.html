@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr dir-paginate="container in containers | itemsPerPage:10">
+        <tr dir-paginate="container in containers | itemsPerPage:10 | filter:search">
           <td><a ng-href="#!/containers/{{container.Id}}" style="cursor: pointer">{{container.Id | limitTo:12}}</a></td>
           <td title="{{container.Names[0]}}" class="wrap-td">{{container.Names[0]}}</td>
           <td title="{{container.Image}}">{{container.Image | limitTo:10}}...</td>

@@ -19,7 +19,7 @@
       </thead>
       <tbody>
         <tr
-          dir-paginate="network in networks | orderBy:order_by_me:reverse_sort | filter:search | itemsPerPage:itemsPerPage">
+          dir-paginate="network in networks | orderBy:order_by_me:reverse_sort | filter:search | itemsPerPage:10">
           <td>{{network.Name}}</td>
           <td>{{network.Created | date: 'dd MMMM yyyy HH:mm'}}</td>
           <td>{{network.Scope}}</td>
@@ -31,5 +31,10 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="float-right">
+      <dir-pagination-controls max-size="maxSize" direction-links="true" boundary-links="true">
+      </dir-pagination-controls>
+    </div>
   </div>
 </div>
