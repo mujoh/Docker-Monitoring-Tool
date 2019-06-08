@@ -12,7 +12,7 @@ app.disable('x-powered-by');
 
 app.get("/rest/v1/containers", function (req, res) {
   request.get({
-    uri: "http://unix:"+config.docker_unix_socket_path+":/containers/json",
+    uri: "http://unix:"+config.docker_unix_socket_path+":/containers/json?all=1",
     headers: {
       "Content-Type": "application/json",
       "host": null

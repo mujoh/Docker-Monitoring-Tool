@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <table class="table table-bordered" width="100%" cellspacing="0">
-      <thead>
+      <thead class="thead-light">
         <tr>
           <th>ID</th>
           <th>Name</th>
@@ -33,7 +33,7 @@
           <td>{{container.Status}}</td>
           <td>
             <button ng-click="start_container(container.Id)"
-              ng-show="container.State=='created' || container.State=='exited'" class="btn btn-success"><i
+              ng-show="container.State=='created' || container.State=='exited'" class="btn btn-success btn-circle"><i
                 class="fas fa-play"></i></button>
             <button ng-click="stop_container(container.Id)" ng-show="container.State=='running'"
               class="btn btn-warning btn-circle"><i class="fas fa-stop"></i></button>
