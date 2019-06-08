@@ -6,15 +6,23 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
 
   function get_containers() {
     $http.get('/rest/v1/containers').then(function (res) {
-      $scope.containers = res.data;
-      $scope.loaded = true;
+      if (res.data.message) {
+        toastr.error(res.data.message);
+      } else {
+        $scope.containers = res.data;
+        $scope.loaded = true;
+      }
     })
   }
 
   $scope.start_container = function (container_id) {
     $http.post('/rest/v1/containers/' + container_id + '/start', {}, $scope.config).then(function (res) {
-      toastr.success("Container started!");
-      get_containers();
+      if (res.data.message) {
+        toastr.error(res.data.message);
+      } else {
+        toastr.success("Container started!");
+        get_containers();
+      }
     }, function errorCallback(res) {
       toastr.error("Error " + res.status + " while starting container.", res.statusText);
     });
@@ -33,8 +41,12 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
           btnClass: 'btn-green',
           action: function (scope, button) {
             $http.post('/rest/v1/containers/' + container_id + '/restart', {}, $scope.config).then(function (res) {
-              toastr.success("Container restarted!");
-              get_containers();
+              if (res.data.message) {
+                toastr.error(res.data.message);
+              } else {
+                toastr.success("Container restarted!");
+                get_containers();
+              }
             }, function errorCallback(res) {
               toastr.error("Error " + res.status + " while restarting container.", res.statusText);
             });
@@ -60,8 +72,12 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
           btnClass: 'btn-orange',
           action: function (scope, button) {
             $http.post('/rest/v1/containers/' + container_id + '/stop', {}, $scope.config).then(function (res) {
-              toastr.success("Container stopped!");
-              get_containers();
+              if (res.data.message) {
+                toastr.error(res.data.message);
+              } else {
+                toastr.success("Container stopped!");
+                get_containers();
+              }
             }, function errorCallback(res) {
               toastr.error("Error " + res.status + " while stopping container.", res.statusText);
             });
@@ -88,8 +104,12 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
           btnClass: 'btn-red',
           action: function (scope, button) {
             $http.delete('/rest/v1/containers/' + container_id + '/delete', $scope.config).then(function (res) {
-              toastr.success("Container deleted!");
-              get_containers();
+              if (res.data.message) {
+                toastr.error(res.data.message);
+              } else {
+                toastr.success("Container deleted!");
+                get_containers();
+              }
             }, function errorCallback(res) {
               toastr.error("Error " + res.status + " while deleting container.", res.statusText);
             });

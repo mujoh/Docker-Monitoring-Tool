@@ -1,0 +1,35 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Images</h6>
+  </div>
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Name')">Name <i ng-class="get_sort_class('Name')"></i>
+          </th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Created')">Created <i
+              ng-class="get_sort_class('Created')"></i></th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Scope')">Scope <i
+              ng-class="get_sort_class('Scope')"></i></th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Driver')">Driver <i
+              ng-class="get_sort_class('Driver')"></i></th>
+          <th>Operation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          dir-paginate="network in networks | orderBy:order_by_me:reverse_sort | filter:search | itemsPerPage:itemsPerPage">
+          <td>{{network.Name}}</td>
+          <td>{{network.Created | date: 'dd MMMM yyyy HH:mm'}}</td>
+          <td>{{network.Scope}}</td>
+          <td>{{network.Driver}}</td>
+          <td>
+            <button ng-click="delete_network(network.Id)" class="btn btn-danger btn-circle"><i
+                class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

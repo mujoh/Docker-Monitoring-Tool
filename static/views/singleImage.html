@@ -1,0 +1,74 @@
+<h1 class="float-left">Image Info</h1>
+<table class="table table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th>Attribute</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Image ID</td>
+      <td>
+        {{image_info.Id}}
+        <span ng-hide="loaded"><img src="../assets/images/loader-small.gif"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>RepoTags</td>
+      <td>
+        {{image_info.RepoTags[0]}}
+        <span ng-hide="loaded"><img src="../assets/images/loader-small.gif"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>Created</td>
+      <td>
+        {{image_info.Created | date:'dd MMMM yyyy HH:mm'}}
+        <span ng-hide="loaded"><img src="../assets/images/loader-small.gif"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>Docker Version</td>
+      <td>
+        {{image_info.DockerVersion}}
+        <span ng-hide="loaded"><img src="../assets/images/loader-small.gif"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>Author</td>
+      <td>
+        {{image_info.Author}}
+        <span ng-hide="loaded"><img src="../assets/images/loader-small.gif"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>Architecture</td>
+      <td>
+        {{image_info.Architecture}}
+        <span ng-hide="loaded"><img src="../assets/images/loader-small.gif"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>OS</td>
+      <td>
+        {{image_info.Os}}
+        <span ng-hide="loaded"><img src="../assets/images/loader-small.gif"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>Size</td>
+      <td>
+        {{image_info.Size | Filesize}}
+        <span ng-hide="loaded"><img src="../assets/images/loader-small.gif"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>Virtual Size</td>
+      <td>
+        {{image_info.VirtualSize | Filesize}}
+        <span ng-hide="loaded"><img src="../assets/images/loader-small.gif"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>
