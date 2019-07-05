@@ -1,5 +1,5 @@
 <div id="wrapper">
-  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" ng-class="toggled" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
@@ -13,26 +13,33 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-      <a class="nav-link" href="#!containers" ng-class="getClass('/containers')">
+    <li class="nav-item" ng-class="getClass('/containers')">
+      <a class="nav-link" href="#!containers">
         <i class="fas fa-server"></i>
         <span>Containers</span></a>
     </li>
-    <li class="nav-item active">
-      <a class="nav-link" href="#!images" ng-class="getClass('/images')">
+    <li class="nav-item" ng-class="getClass('/images')">
+      <a class="nav-link" href="#!images">
         <i class="far fa-clone"></i>
         <span>Images</span></a>
     </li>
-    <li class="nav-item active">
-      <a class="nav-link" href="#!networks" ng-class="getClass('/networks')">
+    <li class="nav-item" ng-class="getClass('/networks')">
+      <a class="nav-link" href="#!networks">
         <i class="fas fa-network-wired"></i>
         <span>Networks</span></a>
     </li>
-    <li class="nav-item active">
-      <a class="nav-link" href="#!about" ng-class="getClass('/about')">
+    <li class="nav-item" ng-class="getClass('/about')">
+      <a class="nav-link" href="#!about">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>About</span></a>
     </li>
+
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <div class="text-center d-none d-md-inline">
+      <button ng-show="!shrinked_sidebar" ng-click="shrink()" class="rounded-circle border-0" id="sidebarToggle"></button>
+      <button ng-show="shrinked_sidebar" ng-click="expand()" class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
 
   </ul>
   <div id="content-wrapper">

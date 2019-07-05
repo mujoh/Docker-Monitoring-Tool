@@ -1,4 +1,4 @@
-function SiteController($http, $scope, toastr, $ngConfirm) {
+function SiteController($http, $scope, toastr, $ngConfirm, $location) {
 
   $scope.login = true;
   $scope.registration = false;
@@ -21,11 +21,35 @@ function SiteController($http, $scope, toastr, $ngConfirm) {
     }
   }
 
+  if(localStorage.getItem('sidebarState') == 'toggled') {
+    $scope.shrinked = localStorage.getItem('sidebarState');
+    $scope.toggled = "toggled";
+    $scope.shrinked_sidebar = true;
+  }
+
+  $scope.shrink = function() {
+    $scope.shrinked = "shrinked";
+    $scope.toggled = "toggled";
+    $scope.shrinked_sidebar = true;
+    localStorage.setItem('sidebarState', "toggled")
+  }
+
+  $scope.expand = function() {
+    $scope.shrinked = "";
+    $scope.toggled = "";
+    $scope.shrinked_sidebar = false;
+    localStorage.removeItem('sidebarState');
+  }
+
   $scope.check_login = function () {
     if (localStorage.getItem('user')) {
       return true;
     }
     return false;
+  }
+
+  $scope.getClass = function (path) {
+    return ($location.path().substr(0, path.length) === path) ? 'active' : '';
   }
 
   $scope.login = function (credentials) {
