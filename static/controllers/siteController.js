@@ -71,13 +71,13 @@ function SiteController($http, $scope, toastr, $ngConfirm, $location) {
     $ngConfirm({
       title: "Log Out?",
       content: "Are you sure you want to log out?",
-      type: 'green',
+      type: 'blue',
       typeAnimated: true,
       scope: $scope,
       buttons: {
         yes: {
           text: "Yes",
-          btnClass: 'btn-green',
+          btnClass: 'btn-blue',
           action: function (scope, button) {
             toastr.info("Logged Out!");
             localStorage.clear();
