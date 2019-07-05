@@ -1,0 +1,101 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">About</h6>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th>Attribute</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Platform</td>
+          <td>
+            {{docker_version_info.Platform.Name}}
+            <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Server Name</td>
+          <td>
+            {{docker_info.Name}}
+            <span ng-hide="loaded_info"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Server Version</td>
+          <td>
+            {{docker_version_info.Version}}
+            <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Architecture</td>
+          <td>
+            {{docker_version_info.Arch}}
+            <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>OS</td>
+          <td>
+            {{docker_info.OperatingSystem}}
+            <span ng-hide="loaded_info"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>OS Type</td>
+          <td>
+            {{docker_info.OSType}}
+            <span ng-hide="loaded_info"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>CPUs Number</td>
+          <td>
+            {{docker_info.NCPU}}
+            <span ng-hide="loaded_info"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Memory Total</td>
+          <td>
+            {{docker_info.MemTotal | Filesize}}
+            <span ng-hide="loaded_info"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Api Version</td>
+          <td>
+            {{docker_version_info.ApiVersion}}
+            <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Go Version</td>
+          <td>
+            {{docker_version_info.GoVersion}}
+            <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Kernel Version</td>
+          <td>
+            {{docker_version_info.KernelVersion}}
+            <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Build Time</td>
+          <td>
+            {{docker_version_info.BuildTime | date: 'dd MMMM yyyy HH:mm'}}
+            <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

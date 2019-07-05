@@ -211,6 +211,36 @@ app.delete('/rest/v1/networks/:id/delete', function (req, res) {
   });
 });
 
+/** ABOUT DOCKER */
+
+app.get('/rest/v1/docker/version', function (req, res) {
+  request.get({
+    uri: "http://unix:" + config.docker_unix_socket_path + ":/version",
+    headers: {
+      "Content-Type": "application/json",
+      "host": null
+    },
+    json: true
+  }, function (err, response, body) {
+    if (err) console.log(err);
+    res.status(200).send(body);
+  });
+});
+
+app.get('/rest/v1/docker/info', function (req, res) {
+  request.get({
+    uri: "http://unix:" + config.docker_unix_socket_path + ":/info",
+    headers: {
+      "Content-Type": "application/json",
+      "host": null
+    },
+    json: true
+  }, function (err, response, body) {
+    if (err) console.log(err);
+    res.status(200).send(body);
+  });
+});
+
 app.post('/rest/v1/register', function (req, res) {
   var user = req.body;
 
@@ -234,10 +264,10 @@ app.post('/login', function (req, res) {
     if (err) {
       throw err;
     }
-    
-    if(rows != 0) {
-      bcrypt.compare(user.password, rows[0].password, function(err, resp) {
-        if(resp === true) {
+
+    if (rows != 0) {
+      bcrypt.compare(user.password, rows[0].password, function (err, resp) {
+        if (resp === true) {
           var token = jwt.sign(rows[0], jwt_secret, {
             expiresIn: 2592000
           });
@@ -253,7 +283,7 @@ app.post('/login', function (req, res) {
           })
         }
       })
-    } else if(rows.length == 0) {
+    } else if (rows.length == 0) {
       res.send({
         success: false,
         message: "User does not exist"
