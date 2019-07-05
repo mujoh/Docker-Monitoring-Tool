@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const request = require('request');
 const config = require('./config/config.js');
+const sqlite3 = require('sqlite3');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const jwt_secret = 'g3NQ3gsC7MQYGvgp';
 
 app.use('/', express.static('static'));
 app.use(express.json()); // to support JSON-encoded bodies
@@ -9,6 +13,14 @@ app.use(express.urlencoded({
   extended: true
 })); // to support URL-encoded bodies
 app.disable('x-powered-by');
+
+let db = new sqlite3.Database("./data/user.db", (err) => {
+  if (err) {
+    console.log('Error when creating the database', err)
+  } else {
+    console.log('Database created!')
+  }
+})
 
 
 /**CONTAINERS */
@@ -198,5 +210,57 @@ app.delete('/rest/v1/networks/:id/delete', function (req, res) {
     res.status(200).send(body);
   });
 });
+
+app.post('/rest/v1/register', function (req, res) {
+  var user = req.body;
+
+  bcrypt.hash(req.body.password, 10, function (err, hash) {
+    user.password = hash;
+    const insertData = () => {
+      db.run('INSERT INTO users (name, password) VALUES (?, ?)', [user.name, user.password]);
+    }
+
+    db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, password TEXT)", insertData);
+    res.send({ message: "Registration successfull" });
+  })
+});
+
+app.post('/login', function (req, res) {
+  var user = req.body;
+
+  sql = "SELECT * FROM users WHERE name = ?";
+
+  db.all(sql, [user.name], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    
+    if(rows != 0) {
+      bcrypt.compare(user.password, rows[0].password, function(err, resp) {
+        if(resp === true) {
+          var token = jwt.sign(rows[0], jwt_secret, {
+            expiresIn: 2592000
+          });
+          res.send({
+            success: true,
+            message: "Login success",
+            token: token
+          })
+        } else {
+          res.send({
+            success: false,
+            message: "Email and password does not match"
+          })
+        }
+      })
+    } else if(rows.length == 0) {
+      res.send({
+        success: false,
+        message: "User does not exist"
+      })
+    }
+  });
+
+})
 
 app.listen(config.port || 2000, () => console.log("Example app listening on port 2000"));

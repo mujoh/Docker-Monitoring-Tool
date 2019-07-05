@@ -31,7 +31,12 @@
 </head>
 
 <body class="page-top">
-  <div ng-include="'dashboard.html'"></div>
+  <div ng-if="!check_login()">
+    <div ng-include="'login.html'"></div>
+  </div>
+  <div ng-if="check_login()">
+    <div ng-include="'dashboard.html'"></div>
+  </div>
 </body>
 
 <!-- Bootstrap core JavaScript
@@ -139,6 +144,15 @@
 
   app.run(function ($rootScope) {
     $rootScope.Utils = {
+      set_config_var: function () {
+        $rootScope.config = {
+          headers: {
+            'Authorization': 'Basic d2VudHdvcnRobWFuOkNoYW5nZV9tZQ==',
+            'Accept': 'application/json;odata=verbose',
+            "JWT": localStorage.getItem('user')
+          }
+        };
+      },
       calculate_cpu_percent: function (data) {
         cpu_count = data.cpu_stats.cpu_usage.percpu_usage.length;
         cpu_percent = 0.0;
@@ -150,7 +164,7 @@
         }
         return cpu_percent;
       },
-      split_string: function(str) {
+      split_string: function (str) {
         return str.split(':')[1];
       }
     }
