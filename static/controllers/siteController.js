@@ -1,4 +1,4 @@
-function SiteController($http, $scope, toastr) {
+function SiteController($http, $scope, toastr, $ngConfirm) {
 
   $scope.login = true;
   $scope.registration = false;
@@ -41,5 +41,28 @@ function SiteController($http, $scope, toastr) {
     }), function (response) {
       console.log(error);
     }
+  }
+
+  $scope.logout = function () {
+    $ngConfirm({
+      title: "Log Out?",
+      content: "Are you sure you want to log out?",
+      type: 'green',
+      typeAnimated: true,
+      scope: $scope,
+      buttons: {
+        yes: {
+          text: "Yes",
+          btnClass: 'btn-green',
+          action: function (scope, button) {
+            toastr.info("Logged Out!");
+            localStorage.clear();
+          }
+        },
+        no: function (scope, button) {
+          //Closes Modal
+        }
+      }
+    })
   }
 }
