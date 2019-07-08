@@ -57,6 +57,7 @@
 <script src="controllers/singleImageController.js"></script>
 <script src="controllers/networksController.js"></script>
 <script src="controllers/aboutController.js"></script>
+<script src="controllers/profileController.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
 
@@ -86,6 +87,7 @@
   app.controller('singleImageController', SingleImageController);
   app.controller('networksController', NetworksController);
   app.controller('aboutController', AboutController);
+  app.controller('profileController', ProfileController);
 
   app.config(function ($routeProvider) {
     $routeProvider
@@ -121,6 +123,10 @@
         templateUrl: "views/about.html",
         controller: "aboutController"
       })
+      .when("/profile", {
+        templateUrl: "views/profile.html",
+        controller: "profileController"
+      })
   });
 
   app.filter('Filesize', function () {
@@ -152,7 +158,17 @@
     };
   });
 
-  app.run(function ($rootScope) {
+  app.filter('isEmpty', function () {
+    return function (string) {
+      if (string === undefined || string == '') {
+        return "not provided";
+      } else {
+        return string;
+      }
+    }
+  })
+
+  app.run(function ($rootScope, $http) {
     $rootScope.Utils = {
       set_config_var: function () {
         $rootScope.config = {
@@ -176,7 +192,20 @@
       },
       split_string: function (str) {
         return str.split(':')[1];
-      }
+      },
+      current_user: function () {
+        if (localStorage.getItem('user')) {
+          $http.get('/me', $rootScope.config).then(function (res) {
+            $rootScope.current_user = res.data;
+            $rootScope.Utils.get_gravatar($rootScope.current_user.email);
+          });
+        };
+      },
+      get_gravatar: function (email) {
+        $http.get('/rest/v1/gravatar/' + email, $rootScope.config).then(function (res) {
+          $rootScope.gravatar = res.data;
+        });
+      },
     }
   });
 </script>

@@ -1,11 +1,12 @@
 function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfirm, toastr) {
 
+  $scope.Utils.set_config_var();
   $scope.loaded = false;
 
   get_containers();
 
   function get_containers() {
-    $http.get('/rest/v1/containers').then(function (res) {
+    $http.get('/rest/v1/containers', $scope.config).then(function (res) {
       if (res.data.message) {
         toastr.error(res.data.message);
       } else {

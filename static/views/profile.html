@@ -1,0 +1,30 @@
+<div class="block">
+  <div class="title">
+    <strong>Profile</strong>
+  </div>
+  <div class="block-body">
+    <div ng-init="get_gravatar(current_user.email)" class="panel-body">
+      <div class="row">
+        <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4" style="text-align: center">
+          <img style="width: 200px;" src="{{gravatar}}"
+            id="profile-image1" class="img-circle img-responsive">
+        </div>
+        <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
+          <div class="container">
+            <h2>{{current_user.email}}</h2>
+          </div>
+          <hr>
+          <ul style="list-style-type: none">
+            <li><strong>Name:</strong> {{current_user.name | isEmpty}}</li>
+            <li><strong>Surname:</strong> {{current_user.surname | isEmpty}}</li>
+            <li><strong>Address:</strong> {{current_user.address | isEmpty}}</li>
+            <li><strong>Position:</strong> {{current_user.position | isEmpty}}</li>
+          </ul>
+          <hr>
+          <div class="col-sm-5 col-xs-6 tital ">Date Of Joining: {{current_user.date | date: 'dd MMMM yyyy HH:mm'}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

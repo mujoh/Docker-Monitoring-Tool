@@ -1,8 +1,10 @@
 function NetworksController($scope, $http, $ngConfirm, toastr) {
+  
+  $scope.Utils.set_config_var();
   get_networks();
 
   function get_networks() {
-    $http.get('/rest/v1/networks').then(function(res) {
+    $http.get('/rest/v1/networks', $scope.config).then(function(res) {
       $scope.networks = res.data;
     });
   };

@@ -1,5 +1,8 @@
 function SiteController($http, $scope, toastr, $ngConfirm, $location) {
 
+  $scope.Utils.set_config_var();
+  $scope.Utils.current_user();
+
   $scope.login = true;
   $scope.registration = false;
 
@@ -14,7 +17,7 @@ function SiteController($http, $scope, toastr, $ngConfirm, $location) {
   }
 
   $scope.register = function (user) {
-    $http.post('/rest/v1/register', user).then(function (res) {
+    $http.post('/register', user).then(function (res) {
       toastr.success(res.data.message);
     }), function (response) {
       console.log(error);

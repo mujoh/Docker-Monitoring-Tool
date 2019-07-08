@@ -1,9 +1,11 @@
 function ImagesController($scope, $http, $ngConfirm, toastr) {
 
+  $scope.Utils.set_config_var();
+
   get_images();
 
   function get_images() {
-    $http.get('/rest/v1/images').then(function (res) {
+    $http.get('/rest/v1/images', $scope.config).then(function (res) {
       if (res.data.message) {
         toastr.error(res.data.message);
       } else {

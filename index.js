@@ -5,6 +5,7 @@ const config = require('./config/config.js');
 const sqlite3 = require('sqlite3');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const gravatar = require('gravatar');
 const jwt_secret = 'g3NQ3gsC7MQYGvgp';
 
 app.use('/', express.static('static'));
@@ -22,6 +23,49 @@ let db = new sqlite3.Database("./data/user.db", (err) => {
   }
 })
 
+app.use('/rest/v1/', function (request, response, next) {
+  jwt.verify(request.get('JWT'), jwt_secret, function (error, decoded) {
+    if (error) {
+      response.status(401).send('Unauthorized access');
+    } else {
+      sql = "SELECT * FROM users WHERE id = ?";
+
+      db.all(sql, [decoded.id], (err, rows) => {
+        if (error) {
+          throw error;
+        } else {
+          if (rows[0]) {
+            next();
+          } else {
+            response.status(401).send('Credentials are wrong.');
+          }
+        }
+      });
+    }
+  });
+});
+
+app.get('/me', function (req, res) {
+  jwt.verify(req.get('JWT'), jwt_secret, function (error, decoded) {
+    if (error) {
+      console.log(error);
+    } else {
+      sql = "SELECT * FROM users WHERE id = ?";
+
+      db.all(sql, [decoded.id], (err, rows) => {
+        if (err) {
+          throw err;
+        }
+        res.send(rows[0])
+      });
+    }
+  });
+});
+
+app.get('/rest/v1/gravatar/:mail', function (req, res) {
+  var profile_picture = gravatar.url(req.params.mail, {protocol: 'https', s: '200'});
+  res.status(200).send(profile_picture);
+});
 
 /**CONTAINERS */
 
@@ -241,16 +285,16 @@ app.get('/rest/v1/docker/info', function (req, res) {
   });
 });
 
-app.post('/rest/v1/register', function (req, res) {
+app.post('/register', function (req, res) {
   var user = req.body;
 
   bcrypt.hash(req.body.password, 10, function (err, hash) {
     user.password = hash;
     const insertData = () => {
-      db.run('INSERT INTO users (name, password) VALUES (?, ?)', [user.name, user.password]);
+      db.run('INSERT INTO users (name, password, email) VALUES (?, ?, ?)', [user.name, user.password, user.email]);
     }
 
-    db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, password TEXT)", insertData);
+    db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, password TEXT, email TEXT)", insertData);
     res.send({ message: "Registration successfull" });
   })
 });
