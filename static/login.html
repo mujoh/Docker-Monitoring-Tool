@@ -14,7 +14,17 @@
             <form class="user">
               <div class="form-group row">
                 <div class="col-sm-12 mb-3 mb-sm-0">
-                  <input ng-model="user.name" type="text" class="form-control form-control-user" placeholder="Full Name">
+                  <input ng-model="user.name" type="text" class="form-control form-control-user" placeholder="Name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-12 mb-3 mb-sm-0">
+                  <input ng-model="user.surname" type="text" class="form-control form-control-user" placeholder="Surname">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-12 mb-3 mb-sm-0">
+                  <input ng-model="user.address" type="text" class="form-control form-control-user" placeholder="Address">
                 </div>
               </div>
               <div class="form-group row">
@@ -63,7 +73,7 @@
                 <form class="user">
                   <div class="form-group">
                     <input type="text" class="form-control form-control-user" id="exampleInputEmail"
-                      ng-model="user.name" placeholder="Enter User Name...">
+                      ng-model="user.email" placeholder="Enter Email...">
                   </div>
                   <div class="form-group">
                     <input type="password" class="form-control form-control-user" id="exampleInputPassword"

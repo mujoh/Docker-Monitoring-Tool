@@ -287,14 +287,15 @@ app.get('/rest/v1/docker/info', function (req, res) {
 
 app.post('/register', function (req, res) {
   var user = req.body;
+  var date = new Date();
 
   bcrypt.hash(req.body.password, 10, function (err, hash) {
     user.password = hash;
     const insertData = () => {
-      db.run('INSERT INTO users (name, password, email) VALUES (?, ?, ?)', [user.name, user.password, user.email]);
+      db.run('INSERT INTO users (name, surname, address, password, email, date) VALUES (?, ?, ?, ?, ?, ?)', [user.name, user.surname, user.address, user.password, user.email, date]);
     }
 
-    db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, password TEXT, email TEXT)", insertData);
+    db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, surname TEXT, address TEXT, password TEXT, email TEXT, date DATE)", insertData);
     res.send({ message: "Registration successfull" });
   })
 });
@@ -302,9 +303,9 @@ app.post('/register', function (req, res) {
 app.post('/login', function (req, res) {
   var user = req.body;
 
-  sql = "SELECT * FROM users WHERE name = ?";
+  sql = "SELECT * FROM users WHERE email = ?";
 
-  db.all(sql, [user.name], (err, rows) => {
+  db.all(sql, [user.email], (err, rows) => {
     if (err) {
       throw err;
     }
