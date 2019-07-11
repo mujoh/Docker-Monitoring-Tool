@@ -14,3 +14,6 @@ This tool helps you to monitor your docker containers, images, networks etc...
 - Add your own config file into config folder
 - Execute npm start
 
+## Requirements
+ - Docker
+ - NodeJS
