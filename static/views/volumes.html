@@ -1,0 +1,43 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Volumes</h6>
+  </div>
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Name')">Driver <i ng-class="get_sort_class('Name')"></i>
+          </th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Created')">Mountpoint <i
+              ng-class="get_sort_class('Created')"></i></th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Scope')">Created At <i
+              ng-class="get_sort_class('Scope')"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          dir-paginate="volume in volumes | orderBy:order_by_me:reverse_sort | filter:search | itemsPerPage:10">
+          <td>{{volume.Driver}}</td>
+          <td>{{volume.Mountpoint}}</td>
+          <td>{{volume.CreatedAt | date: 'dd MMMM yyyy HH:mm'}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="float-right">
+      <dir-pagination-controls max-size="maxSize" direction-links="true" boundary-links="true">
+      </dir-pagination-controls>
+    </div>
+  </div>
+</div>
+
+{{warnings}}
+
+<div class="card shadow mb-4" ng-show="warnings">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Volumes</h6>
+  </div>
+  <div class="card-body">
+
+  </div>
+</div>

@@ -255,6 +255,22 @@ app.delete('/rest/v1/networks/:id/delete', function (req, res) {
   });
 });
 
+/** VOLUMES */
+
+app.get('/rest/v1/volumes', function (req, res) {
+  request.get({
+    uri: "http://unix:" + config.docker_unix_socket_path + ":/volumes",
+    headers: {
+      "Content-Type": "application/json",
+      "host": null
+    },
+    json: true
+  }, function (err, response, body) {
+    if (err) console.log(err);
+    res.status(200).send(body);
+  });
+});
+
 /** ABOUT DOCKER */
 
 app.get('/rest/v1/docker/version', function (req, res) {
@@ -302,6 +318,7 @@ app.post('/register', function (req, res) {
 
 app.post('/login', function (req, res) {
   var user = req.body;
+  console.log(user);
 
   sql = "SELECT * FROM users WHERE email = ?";
 
