@@ -125,6 +125,20 @@ app.get('/rest/v1/containers/:id/top', function (req, res) {
   });
 });
 
+app.get('/rest/v1/containers/:id/logs', function (req, res) {
+  request.get({
+    uri: "http://unix:" + config.docker_unix_socket_path + ":/containers/" + req.params.id + "/logs",
+    headers: {
+      "Content-Type": "application/json",
+      "host": null
+    },
+    json: true
+  }, function (err, response, body) {
+    if (err) console.log(err);
+    res.status(200).send(body);
+  });
+});
+
 app.post('/rest/v1/containers/:id/stop', function (req, res) {
   request.post({
     uri: "http://unix:" + config.docker_unix_socket_path + ":/containers/" + req.params.id + "/stop",
