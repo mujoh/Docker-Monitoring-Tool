@@ -352,7 +352,20 @@ app.post('/login', function (req, res) {
       })
     }
   });
+})
 
+app.get('/rest/v1/test', function(req, res) {
+  request.get({
+    uri: "http://unix:" + config.docker_unix_socket_path + ":/events",
+    headers: {
+      "Content-Type": "application/json",
+      "host": null
+    },
+    json: true
+  }, function (err, response, body) {
+    if (err) console.log(err);
+    res.status(200).send(body);
+  });
 })
 
 app.listen(config.port || 2000, () => console.log("Example app listening on port 2000"));

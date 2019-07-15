@@ -7,7 +7,7 @@ function VolumesController($http, $scope) {
   function get_volumes() {
     $http.get("/rest/v1/volumes", $scope.config).then(function(res) {
       $scope.volumes = res.data.Volumes;
-      if(res.data.Warnings.length > 0) {
+      if((Array.isArray(res.data.Warnings) && res.data.Warnings.length > 0) || res.data.Warnings != null) {
         $scope.warnings = res.data.Warnings;
       }
       $scope.loaded = true;
