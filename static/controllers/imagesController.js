@@ -66,7 +66,7 @@ function ImagesController($scope, $http, $ngConfirm, toastr) {
                 get_images();
               }
             }, function errorCallback(res) {
-              toastr.error("Error " + res.status + " while deleting unused image.", res.statusText);
+              toastr.error("Error " + res.status + " while deleting unused images.", res.statusText);
             });
           }
         },
