@@ -195,6 +195,20 @@ app.delete('/rest/v1/containers/:id/delete', function (req, res) {
   });
 });
 
+app.post('/rest/v1/containers/prune', function (req, res) {
+  request.post({
+    uri: "http://unix:" + config.docker_unix_socket_path + ":/containers/prune",
+    headers: {
+      "Content-Type": "application/json",
+      "host": null
+    },
+    json: true
+  }, function (err, response, body) {
+    if (err) console.log(err);
+    res.status(200).send(body);
+  });
+});
+
 /** IMAGES */
 
 app.get("/rest/v1/images", function (req, res) {
@@ -239,6 +253,20 @@ app.get('/rest/v1/images/:id/json', function (req, res) {
   });
 });
 
+app.post('/rest/v1/images/prune', function (req, res) {
+  request.post({
+    uri: "http://unix:" + config.docker_unix_socket_path + ":/images/prune",
+    headers: {
+      "Content-Type": "application/json",
+      "host": null
+    },
+    json: true
+  }, function (err, response, body) {
+    if (err) console.log(err);
+    res.status(200).send(body);
+  });
+});
+
 /** NETWORKS */
 
 app.get('/rest/v1/networks', function (req, res) {
@@ -269,11 +297,39 @@ app.delete('/rest/v1/networks/:id/delete', function (req, res) {
   });
 });
 
+app.post('/rest/v1/networks/prune', function (req, res) {
+  request.post({
+    uri: "http://unix:" + config.docker_unix_socket_path + ":/networks/prune",
+    headers: {
+      "Content-Type": "application/json",
+      "host": null
+    },
+    json: true
+  }, function (err, response, body) {
+    if (err) console.log(err);
+    res.status(200).send(body);
+  });
+});
+
 /** VOLUMES */
 
 app.get('/rest/v1/volumes', function (req, res) {
   request.get({
     uri: "http://unix:" + config.docker_unix_socket_path + ":/volumes",
+    headers: {
+      "Content-Type": "application/json",
+      "host": null
+    },
+    json: true
+  }, function (err, response, body) {
+    if (err) console.log(err);
+    res.status(200).send(body);
+  });
+});
+
+app.post('/rest/v1/volumes/prune', function (req, res) {
+  request.post({
+    uri: "http://unix:" + config.docker_unix_socket_path + ":/volumes/prune",
     headers: {
       "Content-Type": "application/json",
       "host": null

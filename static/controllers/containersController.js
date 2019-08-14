@@ -122,4 +122,36 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
       }
     });
   };
+
+  $scope.prune_containers = function () {
+    $ngConfirm({
+      title: 'Delete Stopped Containers?',
+      content: 'You are about to delete stopped containers. Confirm?',
+      type: 'blue',
+      icon: 'fa fa-trash',
+      scope: $scope,
+      buttons: {
+        yes: {
+          text: "Yes",
+          btnClass: 'btn-blue',
+          action: function (scope, button) {
+            $http.post('/rest/v1/containers/prune', {}, $scope.config).then(function (res) {
+              if (res.data.message) {
+                toastr.error(res.data.message);
+              } else {
+                console.log(res)
+                toastr.success("You have successfully reclaimed " + $scope.Utils.convertMemorySize(res.data.SpaceReclaimed) + " of disk space");
+                get_containers();
+              }
+            }, function errorCallback(res) {
+              toastr.error("Error " + res.status + " while deleting stopped container.", res.statusText);
+            });
+          }
+        },
+        close: function (scope, button) {
+          //Close modal
+        }
+      }
+    });
+  };
 }

@@ -14,49 +14,49 @@
         <tr>
           <td>Platform</td>
           <td>
-            {{docker_version_info.Platform.Name}}
+            {{docker_version_info.Platform.Name | isEmpty}}
             <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
         <tr>
           <td>Server Name</td>
           <td>
-            {{docker_info.Name}}
+            {{docker_info.Name | isEmpty}}
             <span ng-hide="loaded_info"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
         <tr>
           <td>Server Version</td>
           <td>
-            {{docker_version_info.Version}}
+            {{docker_version_info.Version | isEmpty}}
             <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
         <tr>
           <td>Architecture</td>
           <td>
-            {{docker_version_info.Arch}}
+            {{docker_version_info.Arch | isEmpty}}
             <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
         <tr>
           <td>OS</td>
           <td>
-            {{docker_info.OperatingSystem}}
+            {{docker_info.OperatingSystem | isEmpty}}
             <span ng-hide="loaded_info"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
         <tr>
           <td>OS Type</td>
           <td>
-            {{docker_info.OSType}}
+            {{docker_info.OSType | isEmpty}}
             <span ng-hide="loaded_info"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
         <tr>
           <td>CPUs Number</td>
           <td>
-            {{docker_info.NCPU}}
+            {{docker_info.NCPU | isEmpty}}
             <span ng-hide="loaded_info"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
@@ -70,21 +70,21 @@
         <tr>
           <td>Api Version</td>
           <td>
-            {{docker_version_info.ApiVersion}}
+            {{docker_version_info.ApiVersion | isEmpty}}
             <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
         <tr>
           <td>Go Version</td>
           <td>
-            {{docker_version_info.GoVersion}}
+            {{docker_version_info.GoVersion | isEmpty}}
             <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
         <tr>
           <td>Kernel Version</td>
           <td>
-            {{docker_version_info.KernelVersion}}
+            {{docker_version_info.KernelVersion | isEmpty}}
             <span ng-hide="loaded_version"><img src="../assets/images/loader-small.gif"></span>
           </td>
         </tr>
