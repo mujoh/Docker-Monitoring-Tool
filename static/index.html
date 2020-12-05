@@ -62,6 +62,7 @@
 <script src="controllers/volumesController.js"></script>
 <script src="controllers/aboutController.js"></script>
 <script src="controllers/profileController.js"></script>
+<script src="controllers/activityLogController.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
 
@@ -93,6 +94,7 @@
   app.controller('volumesController', VolumesController);
   app.controller('aboutController', AboutController);
   app.controller('profileController', ProfileController);
+  app.controller('activityLogController', ActivityLogController);
 
   app.config(function ($routeProvider) {
     $routeProvider
@@ -135,6 +137,10 @@
       .when("/profile", {
         templateUrl: "views/profile.html",
         controller: "profileController"
+      })
+      .when("/activity", {
+        templateUrl: "views/activityLog.html",
+        controller: "activityLogController"
       })
   });
 

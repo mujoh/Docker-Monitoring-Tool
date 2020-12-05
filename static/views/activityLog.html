@@ -1,0 +1,38 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-sm-flex align-items-center justify-content-between mb-4">
+    <h6 class="m-0 font-weight-bold text-primary">Activity Log</h6>
+  </div>
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+<!--           <th class="th_for_sort" scope="col" ng-click="order_by('Name')">Name <i ng-class="get_sort_class('Name')"></i>
+          </th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Created')">Created <i
+              ng-class="get_sort_class('Created')"></i></th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Scope')">Scope <i
+              ng-class="get_sort_class('Scope')"></i></th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Driver')">Driver <i
+              ng-class="get_sort_class('Driver')"></i></th>
+          <th>Operation</th> -->
+          <th class="th_for_sort" scope="col" ng-click="order_by('Activity')">Activity <i ng-class="get_sort_class('Activity')"></i></th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('User')">User <i ng-class="get_sort_class('User')"></i></th>
+          <th class="th_for_sort" scope="col" ng-click="order_by('Date')">Date <i ng-class="get_sort_class('Date')"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          dir-paginate="activity in activities.data | orderBy:order_by_me:reverse_sort | filter:search | itemsPerPage:10">
+          <td>{{activity.activity}}</td>
+          <td>{{activity.user}}</td>
+          <td>{{activity.date | date: 'dd MMMM yyyy HH:mm'}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="float-right">
+      <dir-pagination-controls max-size="maxSize" direction-links="true" boundary-links="true">
+      </dir-pagination-controls>
+    </div>
+  </div>
+</div>

@@ -424,6 +424,33 @@ app.post('/login', function (req, res) {
   });
 })
 
+app.post('/rest/v1/activity', function(req, res) {
+  var activity = req.body;
+  var date = new Date();
+
+  const insertData = () => {
+    db.run('INSERT INTO activity (activity, user, date) VALUES (?, ?, ?)', [activity.activity, activity.user, date]);
+  }
+
+  db.run("CREATE TABLE IF NOT EXISTS activity (id INTEGER PRIMARY KEY AUTOINCREMENT, activity TEXT, user TEXT, date DATE)", insertData);
+  res.send({ message: "Event processed" });
+})
+
+app.get('/rest/v1/activity', function(req, res) {
+  sql = "SELECT * FROM activity";
+
+  db.all(sql, (err, rows) => {
+    if (err) {
+      throw err;
+    }
+
+    res.send({
+      success: true,
+      data: rows
+    })
+  })
+})
+
 app.get('/rest/v1/test', function(req, res) {
   request.get({
     uri: "http://unix:" + config.docker_unix_socket_path + ":/events",
