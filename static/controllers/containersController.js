@@ -2,6 +2,7 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
 
   $scope.Utils.set_config_var();
   $scope.loaded = false;
+  $scope.stop_class = "fas fa-stop";
 
   get_containers();
 
@@ -72,12 +73,14 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
           text: "Yes",
           btnClass: 'btn-orange',
           action: function (scope, button) {
+            $scope.stop_class = "fas fa-stop fa-spin";
             $http.post('/rest/v1/containers/' + container_id + '/stop', {}, $scope.config).then(function (res) {
               if (res.data.message) {
                 toastr.error(res.data.message);
               } else {
                 toastr.success("Container stopped!");
                 get_containers();
+                $scope.stop_class = "fas fa-stop";
               }
             }, function errorCallback(res) {
               toastr.error("Error " + res.status + " while stopping container.", res.statusText);

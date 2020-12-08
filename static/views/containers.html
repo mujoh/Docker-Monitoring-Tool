@@ -37,7 +37,7 @@
               ng-show="container.State=='created' || container.State=='exited'" class="btn btn-success btn-circle"><i
                 class="fas fa-play"></i></button>
             <button ng-click="stop_container(container.Id)" ng-show="container.State=='running'"
-              class="btn btn-warning btn-circle"><i class="fas fa-stop"></i></button>
+              class="btn btn-warning btn-circle"><i ng-class="stop_class"></i></button>
             <button ng-click="delete_container(container.Id)" ng-show="container.State!='running'"
               class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></button>
             <button ng-click="restart_container(container.Id)" ng-show="container.State=='running'"
