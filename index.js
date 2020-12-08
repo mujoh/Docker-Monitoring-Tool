@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const gravatar = require('gravatar');
 const jwt_secret = 'g3NQ3gsC7MQYGvgp';
+const http = require('./utils/httpUtils');
 let user = '';
 
 app.use('/', express.static('static'));
