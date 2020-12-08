@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const gravatar = require('gravatar');
 const jwt_secret = 'g3NQ3gsC7MQYGvgp';
+let user = '';
 
 app.use('/', express.static('static'));
 app.use(express.json()); // to support JSON-encoded bodies
@@ -56,6 +57,7 @@ app.get('/me', function (req, res) {
         if (err) {
           throw err;
         }
+        user = rows[0].name + " " + rows[0].surname;
         res.send(rows[0])
       });
     }
@@ -150,6 +152,7 @@ app.post('/rest/v1/containers/:id/stop', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Stop container", user);
   });
 });
 
@@ -164,6 +167,7 @@ app.post('/rest/v1/containers/:id/start', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Start container", user);
   });
 });
 
@@ -178,6 +182,7 @@ app.post('/rest/v1/containers/:id/restart', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Restart container", user);
   });
 });
 
@@ -192,6 +197,7 @@ app.delete('/rest/v1/containers/:id/delete', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Delete container", user);
   });
 });
 
@@ -206,6 +212,7 @@ app.post('/rest/v1/containers/prune', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Prune containers", user);
   });
 });
 
@@ -236,6 +243,7 @@ app.delete('/rest/v1/images/:id/delete', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Delete image", user);
   });
 });
 
@@ -264,6 +272,7 @@ app.post('/rest/v1/images/prune', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Prune images", user);
   });
 });
 
@@ -294,6 +303,7 @@ app.delete('/rest/v1/networks/:id/delete', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Delete network", user);
   });
 });
 
@@ -308,6 +318,7 @@ app.post('/rest/v1/networks/prune', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Prune networks", user);
   });
 });
 
@@ -338,6 +349,7 @@ app.post('/rest/v1/volumes/prune', function (req, res) {
   }, function (err, response, body) {
     if (err) console.log(err);
     res.status(200).send(body);
+    insert_event("Prune volumes", user);
   });
 });
 
@@ -424,18 +436,6 @@ app.post('/login', function (req, res) {
   });
 })
 
-app.post('/rest/v1/activity', function(req, res) {
-  var activity = req.body;
-  var date = new Date();
-
-  const insertData = () => {
-    db.run('INSERT INTO activity (activity, user, date) VALUES (?, ?, ?)', [activity.activity, activity.user, date]);
-  }
-
-  db.run("CREATE TABLE IF NOT EXISTS activity (id INTEGER PRIMARY KEY AUTOINCREMENT, activity TEXT, user TEXT, date DATE)", insertData);
-  res.send({ message: "Event processed" });
-})
-
 app.get('/rest/v1/activity', function(req, res) {
   sql = "SELECT * FROM activity";
 
@@ -464,5 +464,15 @@ app.get('/rest/v1/test', function(req, res) {
     res.status(200).send(body);
   });
 })
+
+function insert_event(activity, user) {
+  date = new Date();
+
+  const insertData = () => {
+    db.run('INSERT INTO activity (activity, user, date) VALUES (?, ?, ?)', [activity, user, date]);
+  }
+
+  db.run("CREATE TABLE IF NOT EXISTS activity (id INTEGER PRIMARY KEY AUTOINCREMENT, activity TEXT, user TEXT, date DATE)", insertData);
+}
 
 app.listen(config.port || 2000, () => console.log("Example app listening on port 2000"));
