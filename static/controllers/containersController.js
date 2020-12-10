@@ -8,12 +8,10 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
 
   function get_containers() {
     $http.get('/rest/v1/containers', $scope.config).then(function (res) {
-      if (res.data.message) {
-        toastr.error(res.data.message);
-      } else {
-        $scope.containers = res.data;
-        $scope.loaded = true;
-      }
+      $scope.containers = res.data;
+      $scope.loaded = true;
+    }, function errorCallback(res) {
+      toastr.error(res.data);
     })
   }
 

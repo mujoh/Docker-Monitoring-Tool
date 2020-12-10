@@ -6,11 +6,9 @@ function ImagesController($scope, $http, $ngConfirm, toastr) {
 
   function get_images() {
     $http.get('/rest/v1/images', $scope.config).then(function (res) {
-      if (res.data.message) {
-        toastr.error(res.data.message);
-      } else {
-        $scope.images = res.data;
-      }
+      $scope.images = res.data;
+    }, function errorCallback(res) {
+      toastr.error(res.data);
     });
   };
 
