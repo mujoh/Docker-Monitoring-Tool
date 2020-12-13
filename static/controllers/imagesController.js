@@ -12,6 +12,43 @@ function ImagesController($scope, $http, $ngConfirm, toastr) {
     });
   };
 
+  function generate_data(repo_tags, exposed_ports) {
+    data='{"Containername": "' + $scope.container_name + '", "Image": "' + repo_tags + '", "HostConfig": {"PortBindings": { "' + exposed_ports + '": [{ "HostPort": "' + $scope.host_port + '" }] }}}'
+  }
+
+  $scope.create_container = function (image) {
+    $http.get('/rest/v1/images/'+image+'/json', $scope.config).then(function (res) {
+      image_data=res.data;
+      $ngConfirm({
+        title: 'Create Container?',
+        content: '<input ng-model="container_name" type="text" placeholder="Container Name" class="form-control">'+
+                 '<input ng-model="host_port" type="number" placeholder="Exposed port" class="form-control">',
+        type: 'green',
+        icon: 'fas fa-plus',
+        scope: $scope,
+        buttons: {
+          yes: {
+            text: "Yes",
+            btnClass: 'btn-success',
+            action: function (scope, button) {
+              generate_data(image_data.RepoTags[0], Object.keys(image_data.ContainerConfig.ExposedPorts)[0])
+              $http.post('/rest/v1/containers/create', data, $scope.config).then(function (res) {
+                toastr.success("Container created!");
+              }, function errorCallback(res) {
+                toastr.error(res.data.message, "Error " + res.status + " while creating container.");
+              })
+            }
+          },
+          close: function (scope, button) {
+            //Close modal
+          }
+        }
+      });
+    }, function errorCallback(res) {
+      toastr.error(res.data.message, "Error " + res.status + " while getting image.");
+    })
+  }
+
   $scope.delete_image = function (image_id) {
     $ngConfirm({
       title: 'Delete Image?',

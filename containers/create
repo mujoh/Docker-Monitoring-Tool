@@ -1,0 +1,1 @@
+curl -X POST -d '{"Image": "mongo:latest", "HostConfig": {"PortBindings": { "27017/tcp": [{ "HostPort": "27018" }] }}}' -H "Content-Type: application/json" --unix-socket /var/run/docker.sock http:/v1.24/containers/create?name=test

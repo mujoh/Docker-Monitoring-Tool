@@ -107,7 +107,8 @@ app.post('/rest/v1/containers/:id/restart', function (req, res) {
 });
 
 app.post('/rest/v1/containers/create', function(req, res) {
-  http.post(res, "http://" + docker_api_version + "/containers/create", req.body);
+  console.log(req.body);
+  http.post(res, "http://" + docker_api_version + "/containers/create?name=" + req.body.Containername, req.body);
 })
 
 app.delete('/rest/v1/containers/:id/delete', function (req, res) {

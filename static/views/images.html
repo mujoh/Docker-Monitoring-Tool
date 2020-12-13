@@ -24,6 +24,7 @@
           <td>{{image.Created * 1000 | date : 'dd MMMM yyyy HH:mm'}}</td>
           <td>{{image.VirtualSize | Filesize}}</td>
           <td>
+            <button title="Create Container" class="btn btn-success btn-circle" ng-click="create_container(image.Id)"><i class="fas fa-plus"></i></button>
             <button ng-click="delete_image(image.Id)" class="btn btn-danger btn-circle"><i
                 class="fas fa-trash"></i></button>
           </td>
