@@ -3,6 +3,7 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
   $scope.Utils.set_config_var();
   $scope.loaded = false;
   $scope.stop_class = "fas fa-stop";
+  $scope.restart_class = "fas fa-sync-alt";
 
   get_containers();
 
@@ -40,12 +41,14 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
           text: "Yes",
           btnClass: 'btn-green',
           action: function (scope, button) {
+            $scope.restart_class = "fas fa-sync-alt fa-spin";
             $http.post('/rest/v1/containers/' + container_id + '/restart', {}, $scope.config).then(function (res) {
               if (res.data.message) {
                 toastr.error(res.data.message);
               } else {
                 toastr.success("Container restarted!");
                 get_containers();
+                $scope.restart_class = "fas fa-sync-alt";
               }
             }, function errorCallback(res) {
               toastr.error(res.data.message, "Error " + res.status + " while restarting container.");

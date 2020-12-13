@@ -28,8 +28,8 @@
             </span></td>
           <td><span class="badge"
               ng-class="{'badge-success' : container.State=='running', 
-                                                      'badge-warning' : container.State=='exited',
-                                                      'badge-primary' : container.State=='created'}">{{container.State}}</i>
+                         'badge-warning' : container.State=='exited',
+                         'badge-primary' : container.State=='created'}">{{container.State}}</i>
           </td>
           <td>{{container.Status}}</td>
           <td>
@@ -41,7 +41,7 @@
             <button ng-click="delete_container(container.Id)" ng-show="container.State!='running'"
               class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></button>
             <button ng-click="restart_container(container.Id)" ng-show="container.State=='running'"
-              class="btn btn-success btn-circle"><i class="fas fa-sync-alt"></i></button>
+              class="btn btn-success btn-circle"><i ng-class="restart_class"></i></button>
           </td>
         </tr>
       </tbody>
