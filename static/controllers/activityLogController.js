@@ -1,6 +1,4 @@
 function ActivityLogController($http, $scope, toastr) {
-  console.log("activity controller");
-
   $scope.Utils.set_config_var();
   $scope.loaded = false;
 
@@ -12,7 +10,6 @@ function ActivityLogController($http, $scope, toastr) {
         toastr.error(res.data.message);
       } else {
         $scope.activities = res.data;
-        console.log($scope.activities);
         $scope.loaded = true;
       }
     })

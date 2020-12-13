@@ -24,7 +24,7 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
         get_containers();
       }
     }, function errorCallback(res) {
-      toastr.error("Error " + res.status + " while starting container.", res.statusText);
+      toastr.error(res.data.message, "Error " + res.status + " while starting container.");
     });
   };
 
@@ -48,7 +48,7 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
                 get_containers();
               }
             }, function errorCallback(res) {
-              toastr.error("Error " + res.status + " while restarting container.", res.statusText);
+              toastr.error(res.data.message, "Error " + res.status + " while restarting container.");
             });
           }
         },
@@ -81,7 +81,7 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
                 $scope.stop_class = "fas fa-stop";
               }
             }, function errorCallback(res) {
-              toastr.error("Error " + res.status + " while stopping container.", res.statusText);
+              toastr.error(res.data.message, "Error " + res.status + " while stopping container.");
             });
           }
         },
@@ -113,7 +113,7 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
                 get_containers();
               }
             }, function errorCallback(res) {
-              toastr.error("Error " + res.status + " while deleting container.", res.statusText);
+              toastr.error(res.data.message, "Error " + res.status + " while deleting container.");
             });
           }
         },
@@ -140,12 +140,11 @@ function ContainersController($http, $scope, $routeParams, $rootScope, $ngConfir
               if (res.data.message) {
                 toastr.error(res.data.message);
               } else {
-                console.log(res)
                 toastr.success("You have successfully reclaimed " + $scope.Utils.convertMemorySize(res.data.SpaceReclaimed) + " of disk space");
                 get_containers();
               }
             }, function errorCallback(res) {
-              toastr.error("Error " + res.status + " while deleting stopped container.", res.statusText);
+              toastr.error(res.data.message, "Error " + res.status + " while deleting stopped container.");
             });
           }
         },

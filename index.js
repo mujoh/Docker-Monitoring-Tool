@@ -8,7 +8,9 @@ const gravatar = require('gravatar');
 const jwt_secret = 'g3NQ3gsC7MQYGvgp';
 const http = require('./utils/httpUtils');
 const request = require('request');
+
 let user = '';
+const docker_api_version = "v1.24"
 
 app.use('/', express.static('static'));
 app.use(express.json()); // to support JSON-encoded bodies
@@ -73,196 +75,87 @@ app.get('/rest/v1/gravatar/:mail', function (req, res) {
 /**CONTAINERS */
 
 app.get("/rest/v1/containers", function (req, res) {
-  http.get(res, "http://1.24/containers/json?all=1");
+  http.get(res, "http://" + docker_api_version + "/containers/json?all=1");
 });
 
 app.get('/rest/v1/containers/:id/json', function (req, res) {
-  http.get(res, "http://1.24/containers/" + req.params.id + "/json");
+  http.get(res, "http://" + docker_api_version + "/containers/" + req.params.id + "/json");
 });
 
 app.get('/rest/v1/containers/:id/stats', function (req, res) {
-  http.get(res, "http://1.24/containers/" + req.params.id + "/stats?stream=false");
+  http.get(res, "http://" + docker_api_version + "/containers/" + req.params.id + "/stats?stream=false");
 });
 
 app.get('/rest/v1/containers/:id/top', function (req, res) {
-  http.get(res, "http://1.24/containers/" + req.params.id + "/top");
+  http.get(res, "http://" + docker_api_version + "/containers/" + req.params.id + "/top");
 });
 
 app.get('/rest/v1/containers/:id/logs', function (req, res) {
-  http.get(res, "http://1.24/containers/" + req.params.id + "/logs");
+  http.get(res, "http://" + docker_api_version + "/containers/" + req.params.id + "/logs");
 });
 
 app.post('/rest/v1/containers/:id/stop', function (req, res) {
-  request.post({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/containers/" + req.params.id + "/stop",
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Stop container", user);
-  });
+  http.post(res, "http://" + docker_api_version +":/containers/" + req.params.id + "/stop");
 });
 
 app.post('/rest/v1/containers/:id/start', function (req, res) {
-  request.post({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/containers/" + req.params.id + "/start",
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Start container", user);
-  });
+  http.post(res, "http://" + docker_api_version +":/containers/" + req.params.id + "/start");
 });
 
 app.post('/rest/v1/containers/:id/restart', function (req, res) {
-  request.post({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/containers/" + req.params.id + "/restart",
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Restart container", user);
-  });
+  http.post(res, "http://" + docker_api_version +":/containers/" + req.params.id + "/restart");
 });
 
 app.delete('/rest/v1/containers/:id/delete', function (req, res) {
-  request.delete({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/containers/" + req.params.id,
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Delete container", user);
-  });
+  http.delete(res, "http://" + docker_api_version + "/containers/" + req.params.id)
 });
 
 app.post('/rest/v1/containers/prune', function (req, res) {
-  request.post({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/containers/prune",
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Prune containers", user);
-  });
+  http.post(res, "http://" + docker_api_version + "/containers/prune");
 });
 
 /** IMAGES */
 
 app.get("/rest/v1/images", function (req, res) {
-  http.get(res, "http://1.24/images/json");
+  http.get(res, "http://" + docker_api_version + "/images/json");
 });
 
 app.delete('/rest/v1/images/:id/delete', function (req, res) {
-  http.get(res, "http://1.24/images/" + req.params.id);
-  request.delete({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/images/" + req.params.id,
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Delete image", user);
-  });
+  http.delete(res, "http://" + docker_api_version + "/images/" + req.params.id)
 });
 
 app.get('/rest/v1/images/:id/json', function (req, res) {
-  http.get(res, "http://1.24/images/" + req.params.id + "/json");
+  http.get(res, "http://" + docker_api_version + "/images/" + req.params.id + "/json");
 });
 
 app.post('/rest/v1/images/prune', function (req, res) {
-  request.post({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/images/prune",
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Prune images", user);
-  });
+  http.post(res, "http://" + docker_api_version + "/images/prune");
 });
 
 /** NETWORKS */
 
 app.get('/rest/v1/networks', function (req, res) {
-  http.get(res, "http://1.24/networks");
+  http.get(res, "http://"+ docker_api_version +"/networks");
 });
 
 app.delete('/rest/v1/networks/:id/delete', function (req, res) {
-  request.delete({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/networks/" + req.params.id,
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Delete network", user);
-  });
+  http.delete(res, "http://" + docker_api_version + "/networks/" + req.params.id);
 });
 
 app.post('/rest/v1/networks/prune', function (req, res) {
-  request.post({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/networks/prune",
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Prune networks", user);
-  });
+  http.post(res, "http://"+ docker_api_version +"/networks/prune");
 });
 
 /** VOLUMES */
 
 app.get('/rest/v1/volumes', function (req, res) {
-  http.get(res, "http://1.24/volumes");
+  http.get(res, "http://"+ docker_api_version +"/volumes");
 });
 
 app.post('/rest/v1/volumes/prune', function (req, res) {
-  request.post({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/volumes/prune",
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-    insert_event("Prune volumes", user);
-  });
+  http.post(res, "http://"+ docker_api_version +"/volumes/prune");
+  //TODO
+  //insert_event("Prune volumes", user);
 });
 
 /** ABOUT DOCKER */
@@ -272,17 +165,7 @@ app.get('/rest/v1/docker/version', function (req, res) {
 });
 
 app.get('/rest/v1/docker/info', function (req, res) {
-  request.get({
-    uri: "http://unix:" + config.docker_unix_socket_path + ":/info",
-    headers: {
-      "Content-Type": "application/json",
-      "host": null
-    },
-    json: true
-  }, function (err, response, body) {
-    if (err) console.log(err);
-    res.status(200).send(body);
-  });
+  http.get(res, "http://1.24/info");
 });
 
 app.post('/register', function (req, res) {

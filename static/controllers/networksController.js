@@ -30,7 +30,7 @@ function NetworksController($scope, $http, $ngConfirm, toastr) {
                 get_networks();
               }
             }, function errorCallback(res) {
-              toastr.error("Error " + res.status + " while deleting network.", res.statusText);
+              toastr.error(res.data.message, "Error " + res.status + " while deleting network.");
             });
           }
         },
@@ -61,7 +61,7 @@ function NetworksController($scope, $http, $ngConfirm, toastr) {
                 get_networks();
               }
             }, function errorCallback(res) {
-              toastr.error("Error " + res.status + " while deleting unused networks.", res.statusText);
+              toastr.error(res.data.message, "Error " + res.status + " while deleting unused networks.");
             });
           }
         },

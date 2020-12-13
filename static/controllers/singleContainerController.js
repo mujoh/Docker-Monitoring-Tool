@@ -12,7 +12,7 @@ function SingleContainerController($http, $scope, $routeParams, $rootScope, toas
       $rootScope.cpu_percent = $scope.Utils.calculate_cpu_percent($rootScope.container_stats);
       $scope.loaded_stats = true;
     }, function errorCallback(res) {
-      toastr.error("Error " + res.status + " while getting container stats.", res.statusText);
+      toastr.error(res.data.message, "Error " + res.status + " while getting container stats.");
     });
   };
 
@@ -22,7 +22,7 @@ function SingleContainerController($http, $scope, $routeParams, $rootScope, toas
       $rootScope.cpu_percent = $scope.Utils.calculate_cpu_percent($rootScope.container_stats);
       toastr.success("Successfully Refreshed!");
     }, function errorCallback(res) {
-      toastr.error("Error " + res.status + " while refreshing container.", res.statusText);
+      toastr.error(res.data.message, "Error " + res.status + " while refreshing container.");
     });
   }
 
@@ -31,7 +31,7 @@ function SingleContainerController($http, $scope, $routeParams, $rootScope, toas
       $rootScope.container_info = res.data;
       $scope.loaded_info = true;
     }, function errorCallback(res) {
-      toastr.error("Error " + res.status + " while getting container info.", res.statusText);
+      toastr.error(res.data.message, "Error " + res.status + " while getting container info.");
     });
   }
 
@@ -39,7 +39,7 @@ function SingleContainerController($http, $scope, $routeParams, $rootScope, toas
     $http.get('/rest/v1/containers/' + $routeParams.id + '/top', $scope.config).then(function (res) {
       $rootScope.container_processes = res.data;
     }, function errorCallback(res) {
-      toastr.error("Error " + res.status + " while getting container processes.", res.statusText);
+      toastr.error(res.data.message, "Error " + res.status + " while getting container processes.");
     });
   }
 }

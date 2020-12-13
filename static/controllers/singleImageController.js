@@ -12,7 +12,7 @@ function SingleImageController($scope, $http, $routeParams, toastr) {
         $scope.loaded = true;
       }
     }, function errorCallback(res) {
-      toastr.error("Error " + res.status + " while getting image info.", res.statusText);
+      toastr.error(res.data.message, "Error " + res.status + " while getting image info.");
     });
   }
 

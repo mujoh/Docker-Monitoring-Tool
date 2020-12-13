@@ -34,7 +34,7 @@ function VolumesController($http, $scope, $ngConfirm, toastr) {
                 get_volumes();
               }
             }, function errorCallback(res) {
-              toastr.error("Error " + res.status + " while deleting unused volumes.", res.statusText);
+              toastr.error(res.data.message, "Error " + res.status + " while deleting unused volumes.");
             });
           }
         },
