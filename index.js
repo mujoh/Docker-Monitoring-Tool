@@ -185,7 +185,6 @@ app.post('/register', function (req, res) {
 
 app.post('/login', function (req, res) {
   var user = req.body;
-  console.log(user);
 
   sql = "SELECT * FROM users WHERE email = ?";
 
