@@ -19,8 +19,8 @@ module.exports = {
     });
   },
 
-  post: (res, url) => {
-    axios.post(url, {}, { socketPath: '/var/run/docker.sock' })
+  post: (res, url, data) => {
+    axios.post(url, data, { socketPath: '/var/run/docker.sock', headers: {'Content-Type': 'application/json'} })
     .then(function(response) {
       return res.status(response.status).send(response.data);
     })

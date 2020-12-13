@@ -95,23 +95,27 @@ app.get('/rest/v1/containers/:id/logs', function (req, res) {
 });
 
 app.post('/rest/v1/containers/:id/stop', function (req, res) {
-  http.post(res, "http://" + docker_api_version +":/containers/" + req.params.id + "/stop");
+  http.post(res, "http://" + docker_api_version + "/containers/" + req.params.id + "/stop", {});
 });
 
 app.post('/rest/v1/containers/:id/start', function (req, res) {
-  http.post(res, "http://" + docker_api_version +":/containers/" + req.params.id + "/start");
+  http.post(res, "http://" + docker_api_version + "/containers/" + req.params.id + "/start", {});
 });
 
 app.post('/rest/v1/containers/:id/restart', function (req, res) {
-  http.post(res, "http://" + docker_api_version +":/containers/" + req.params.id + "/restart");
+  http.post(res, "http://" + docker_api_version + "/containers/" + req.params.id + "/restart", {});
 });
+
+app.post('/rest/v1/containers/create', function(req, res) {
+  http.post(res, "http://" + docker_api_version + "/containers/create", req.body);
+})
 
 app.delete('/rest/v1/containers/:id/delete', function (req, res) {
   http.delete(res, "http://" + docker_api_version + "/containers/" + req.params.id)
 });
 
 app.post('/rest/v1/containers/prune', function (req, res) {
-  http.post(res, "http://" + docker_api_version + "/containers/prune");
+  http.post(res, "http://" + docker_api_version + "/containers/prune", {});
 });
 
 /** IMAGES */
@@ -129,7 +133,7 @@ app.get('/rest/v1/images/:id/json', function (req, res) {
 });
 
 app.post('/rest/v1/images/prune', function (req, res) {
-  http.post(res, "http://" + docker_api_version + "/images/prune");
+  http.post(res, "http://" + docker_api_version + "/images/prune", {});
 });
 
 /** NETWORKS */
@@ -143,7 +147,7 @@ app.delete('/rest/v1/networks/:id/delete', function (req, res) {
 });
 
 app.post('/rest/v1/networks/prune', function (req, res) {
-  http.post(res, "http://"+ docker_api_version +"/networks/prune");
+  http.post(res, "http://"+ docker_api_version +"/networks/prune", {});
 });
 
 /** VOLUMES */
@@ -153,7 +157,7 @@ app.get('/rest/v1/volumes', function (req, res) {
 });
 
 app.post('/rest/v1/volumes/prune', function (req, res) {
-  http.post(res, "http://"+ docker_api_version +"/volumes/prune");
+  http.post(res, "http://"+ docker_api_version +"/volumes/prune", {});
   //TODO
   //insert_event("Prune volumes", user);
 });
